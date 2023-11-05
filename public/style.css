@@ -1,0 +1,35 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#sala{
+    display: flex;
+    width: 100%;
+    height: 90vh;
+    flex-wrap: wrap;
+    align-items:flex-start;
+    justify-content: flex-start;
+}
+#user ,#outrosUsers{
+    display: flex;
+    position: relative;
+    overflow: hidden
+}
+.id_user{
+    
+    position: absolute;
+    text-align: center;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+}
+.users{
+    flex: 1;
+    border: 1px solid #000;
+    margin: 3px;
+    max-width: 300px;
+    max-height: 300px;
+}
