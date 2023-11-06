@@ -39,7 +39,7 @@ let usersConnect = []
 
 io.on("connection" , (socket) =>{
 
-  socket.on("sala", (data) =>{
+  socket.on("room", (data) =>{
     socket.usuername = data.id;
     usersConnect.push(data.id)
     socket.emit('UsersNaSala' , {
