@@ -8,7 +8,7 @@ BASE=http://localhost:4000
 1. Clone este repositório:
 
     ```bash
-    https://github.com/gabrielbdsm/videoConferencia.git
+    git clone https://github.com/gabrielbdsm/videoConferencia.git
     ```
 
 2. Instale as dependências:
