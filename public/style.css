@@ -34,11 +34,11 @@ body{
 }
 
 .userId{
-    font-size: 2rem;
+    font-size: 1rem;
     position: absolute;
     z-index: 2;
-    left: 2rem;
-    bottom: 10px;
+    left: 1rem;
+    bottom: 1px;
     color: rgb(255, 255, 255);
     
     

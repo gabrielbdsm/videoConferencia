@@ -7,22 +7,25 @@ const socket = io()
 
 const urlSearch = new URLSearchParams(window.location.search)
 const username = urlSearch.get("username")
+const selectRoom = urlSearch.get("selectRoom")
 
 var peer = new Peer(username)
 
 peer.on('open', function(id) {
   document.getElementById("localUserId").innerHTML= id 
   socket.emit("room", {
-    id
+    id,
+    selectRoom
   })
   
   });
 
 function  renderUserlist(list)  {
   listUsers= list[0].filter(u => u != username)
+  
   var sala = document.getElementById("room")
   let quantidadeColunas = Math.round(Math.sqrt(list[0].length))
-  console.log(quantidadeColunas)
+  
   sala.style.gridTemplateColumns = 'repeat(' + quantidadeColunas + ', ' +   '1fr)';
   var filhosSala = sala.children;
 
@@ -57,15 +60,16 @@ function  renderUserlist(list)  {
 }
 
 socket.on("UsersNaSala", (list)=>{ 
+  console.log(Object.values(list))
   renderUserlist(Object.values(list))
 })
 
-socket.on("UsersNaSalaAtualizado", (list)=>{ 
-  renderUserlist(Object.values(list))
-  if (startTrasmissao){
-    chamada.transmitir()
-  }
-})
+// socket.on("UsersNaSalaAtualizado", (list)=>{ 
+//   renderUserlist(Object.values(list))
+//   if (startTrasmissao){
+//     chamada.transmitir()
+//   }
+// })
 
 peer.on('call', (call) => {
   call.answer(null);
@@ -173,7 +177,7 @@ document.getElementById("starCamera").addEventListener("click",  function() {
 document.getElementById("apresentacao").addEventListener("click",  function() {
   let element = document.getElementById('remote-video_' + username) 
 
-  console.log(getComputedStyle(this).getPropertyValue("background-color"))
+
   if (getComputedStyle(this).getPropertyValue("background-color") == "rgb(234, 67, 53)") {
     this.style.backgroundColor = "rgb(60,64,67)"
 } else {
