@@ -28,7 +28,7 @@ export  const userSalver = async  (req , res )=>{
             await user.save()
             return res.render('chat');
         }else{
-            console.log("usuario ja existe na sala")
+            return res.status(400).json({ error: 'Usuário já existe na sala' });
         }
     } catch (error) {
         console.error("Erro ao verificar se usuario existe na sala " ,error)

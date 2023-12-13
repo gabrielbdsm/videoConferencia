@@ -7,6 +7,7 @@ import express, { response } from "express";
 import dotenv from 'dotenv';
 import cors from 'cors';
 import http from 'http';
+import https from 'https';
 import path from "path";
 import { Server } from "socket.io";
 import bodyParser from 'body-parser';
@@ -21,6 +22,7 @@ mongoConnect()
 const __dirname = path.resolve()
 const port = process.env.PORT;
 const app = express();
+
 const server = http.createServer(app);
 
 
@@ -52,31 +54,29 @@ io.on("connection" , (socket) =>{
   socket.on("room", async(data) =>{
     socket.username = data.id
     socket.join(data.selectRoom)
-    console.log(socket.rooms)
-    let usersConnect = await usersSelect(data.selectRoom)
-    
-    
     const rooms = Array.from(socket.rooms.values()).filter(room => room !== socket.id);
-    io.to(rooms).emit("UsersNaSala", {
+    let usersConnect = await usersSelect(rooms[0])
+    
+    
+    io.to(rooms[0]).emit("UsersNaSala", {
       usersConnect
     })
-    // socket.emit('UsersNaSala' , {
-    //     usersConnect
-    // })
-    // socket.broadcast.emit("UsersNaSalaAtualizado" , {
-    //   usersConnect
-    // })
 
     socket.on('disconnect', async() => {
       
       userDisconnect(socket.username , data.selectRoom)
       usersConnect = await usersSelect(data.selectRoom);
       usersConnect = usersConnect.filter(u => u !== socket.username);
-      io.to(data.selectRoom).emit("UsersNaSala", {
+      io.to(rooms[0]).emit("UsersNaSala", {
         usersConnect
       })
     })
-
+    socket.on('limpartela', (username) => {
+      console.log(username)
+      io.to(rooms[0]).emit("userLimpaTela", {
+        username
+      })
+    })
     
   })
 

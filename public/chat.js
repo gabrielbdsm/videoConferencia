@@ -1,5 +1,6 @@
 var listUsers = []
 var startTrasmissao = false
+var startApresentacao  = false
 let microphone = false 
 let camera= false
 const socket = io()
@@ -60,16 +61,27 @@ function  renderUserlist(list)  {
 }
 
 socket.on("UsersNaSala", (list)=>{ 
-  console.log(Object.values(list))
+  console.log(startTrasmissao)
+
   renderUserlist(Object.values(list))
+  if (startTrasmissao){
+    chamada.transmitir()
+  }
+  if(startApresentacao){
+    streamTela.transmitir()
+  }
 })
 
-// socket.on("UsersNaSalaAtualizado", (list)=>{ 
-//   renderUserlist(Object.values(list))
-//   if (startTrasmissao){
-//     chamada.transmitir()
-//   }
-// })
+socket.on("userLimpaTela",async (u)=>{
+  let user = Object.values(u)[0]
+  let videoElement = document.getElementById("remote-video_" + user.username)
+  if (videoElement){
+    videoElement.srcObject = null
+  }
+  else{
+    console.log("video nao encontrado")
+  }
+})
 
 peer.on('call', (call) => {
   call.answer(null);
@@ -80,13 +92,27 @@ peer.on('call', (call) => {
     document.body.addEventListener("mousemove", function () {
       video.muted = false
     })
+    document.addEventListener('touchstart', function () {
+      video.muted = false
+    });
+    
   })
 })
+
+function interromperTransmissao (stream){
+    
+  if(stream){
+    
+    const tracks = stream.getTracks();
+    tracks.forEach(track => track.stop());
+    
+  }
+}
+
 
 const chamada = {
   stream : null,
   gravação: (camera , microphone) => {
-    
     navigator.mediaDevices.getUserMedia({ video: camera, audio: microphone })
     .then((stream) => {
       chamada.stream = stream
@@ -96,17 +122,6 @@ const chamada = {
       console.error('Erro ao iniciar a chamada:', error);
     })
   },
-  apresentar: () => {
-    navigator.mediaDevices.getDisplayMedia({ video: true, audio: true })
-    .then((stream) => {
-      chamada.stream = stream
-      document.getElementById('remote-video_' + username).srcObject = stream;
-      chamada.transmitir()
-    }).catch((error) => {
-      console.error('Erro ao iniciar a chamada:', error);
-    })
-  },
-
   transmitir : () =>{
     if (chamada.stream) {
       
@@ -121,19 +136,58 @@ const chamada = {
       console.error('Nenhum stream disponível para transmitir.');
     }
   },
+  interromperExibicaoRemota : async() => {
+    interromperTransmissao (chamada.stream)
+    document.getElementById("localVideo").srcObject = null;
+    chamada.stream = null
+    startTrasmissao = false
+    socket.emit("limpartela",{
+      username
+    })
+  },
 
-  interromperTransmissao: ()=>{
-    
-    if(chamada.stream){
-      const tracks = chamada.stream.getTracks();
-      tracks.forEach(track => track.stop());
-      chamada.stream = null;
-    }
-  }
 }
+const streamTela ={
+  stream : null,
+  apresentar: () => {
+    navigator.mediaDevices.getDisplayMedia({ video: true, audio: true })
+    .then((stream) => {
+      streamTela.stream = stream
+      document.getElementById('remote-video_' + username).srcObject = stream;
+      streamTela.transmitir()
+    }).catch((error) => {
+      console.error('Erro ao iniciar a chamada:', error);
+    })
+  },
+  transmitir : () =>{
+    if (streamTela.stream) {
+      
+      listUsers.forEach(usuario =>{
+        var call = peer.call(usuario, streamTela.stream);
+        startApresentacao =true
+        
+        call.on("stream", (remoteStream) => {
+          document.getElementById("remote-video_" + call.peer).srcObject = remoteStream;
+        });
+      })
+    }else {
+      console.error('Nenhum stream disponível para transmitir.');
+    }
+  },  
+  interromperExibicaoRemota : () => {
+    interromperTransmissao (streamTela.stream)
+    startApresentacao = false
+    streamTela.stream = null
+    socket.emit("limpartela",{
+      username
+    })
+  },
+}
+
+
 function gravação (){
   if (microphone == false && camera == false) {
-    chamada.interromperTransmissao()
+    chamada.interromperExibicaoRemota()
   }else{
     chamada.gravação(camera , microphone)
   }
@@ -202,10 +256,10 @@ document.getElementById("apresentacao").addEventListener("click",  function() {
   div.appendChild(paragrafo);
 
   document.getElementById("room").appendChild(div);
-  chamada.apresentar()
+  streamTela.apresentar()
   }else{
     element.parentNode.remove();
-    chamada.interromperTransmissao()
+    streamTela.interromperExibicaoRemota()
   }
 
 })
