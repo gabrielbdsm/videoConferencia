@@ -64,7 +64,7 @@ io.on("connection" , (socket) =>{
 
     socket.on('disconnect', async() => {
       
-      userDisconnect(socket.username , data.selectRoom)
+      user+Disconnect(socket.username , data.selectRoom)
       usersConnect = await usersSelect(data.selectRoom);
       usersConnect = usersConnect.filter(u => u !== socket.username);
       io.to(rooms[0]).emit("UsersNaSala", {

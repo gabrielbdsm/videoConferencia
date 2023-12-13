@@ -100,12 +100,9 @@ peer.on('call', (call) => {
 })
 
 function interromperTransmissao (stream){
-    
   if(stream){
-    
     const tracks = stream.getTracks();
-    tracks.forEach(track => track.stop());
-    
+    tracks.forEach(track => track.stop());    
   }
 }
 
@@ -128,9 +125,7 @@ const chamada = {
       listUsers.forEach(usuario =>{
         var call = peer.call(usuario, chamada.stream);
         startTrasmissao =true
-        call.on("stream", (remoteStream) => {
-          document.getElementById("remote-video_" + call.peer).srcObject = remoteStream;
-        });
+        
       })
     }else {
       console.error('Nenhum stream disponível para transmitir.');
@@ -165,10 +160,6 @@ const streamTela ={
       listUsers.forEach(usuario =>{
         var call = peer.call(usuario, streamTela.stream);
         startApresentacao =true
-        
-        call.on("stream", (remoteStream) => {
-          document.getElementById("remote-video_" + call.peer).srcObject = remoteStream;
-        });
       })
     }else {
       console.error('Nenhum stream disponível para transmitir.');
