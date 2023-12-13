@@ -1,4 +1,4 @@
-# videoConfer-ncia
+# VídeoConferência
 
 PORT=4000
 BASE=http://localhost:4000
