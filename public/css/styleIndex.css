@@ -2,8 +2,9 @@ html, body {
     margin: 0;
     padding: 0;
   }
+
 body{
-      background-color: rgb(219, 219, 219);
+      background-color: #8A9A5B;
       height: 100vh;
       width: 100vw;
       overflow: hidden;
@@ -19,51 +20,59 @@ body{
     flex-direction: column;
     justify-content:space-around;
     align-items: center;
-    background-color:  rgb(153, 153, 153);
-    border-radius: 3px;
-    box-shadow: 5px 5px 5px rgb(139, 139, 139) ;
-    
-    
+    background-color:  #FFFFFF;
+    border-radius: 25px;
+    box-shadow: 5px 5px 5px #355E3B;  
 }
+
 .login-section h2{
     margin: 10px;
     text-align: center;
 }
+
 .section{
     
-    margin:0 0 1rem 0.5rem;
+    margin:0 0 0rem 0.5rem;
 }
 .room , .user{
     display: flex;
     flex-direction: column;
-    font-size: 0.9rem;
-    margin-top:1rem;
-    text-transform: uppercase;
+    font-size: 1.0rem;
+    margin-top: 1rem;
+    font-family: "Kanit";
+}
+
+.campo{
+  border: none;
+  border-radius: 25px;
+  height: 30px;
+  background-color: #ECFFDC;
+  padding-left: 10px;
 }
 
 .login-button {
   appearance: none;
-  background-color: #1f1f1f;
-  border: 2px solid #1A1A1A;
-  border-radius: 15px;
+  background-color: #4F7942;
+  border: 2px solid #4F7942;
+  border-radius: 25px;
   box-sizing: border-box;
-  color: #FFFFFF;
+  color: #FFF;
   cursor: pointer;
   display: inline-block;
   font-family: Roobert,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 600;
   line-height: normal;
   margin: 0;
   outline: none;
-  padding: 16px 24px;
   text-align: center;
   text-decoration: none;
   transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
-  width: 90%;
+  width: 30%;
+  height: 40px;
   will-change: transform;
 }
 
