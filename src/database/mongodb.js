@@ -10,8 +10,8 @@ export  const mongoConnect = async()=> {
             useNewUrlParser: true,
             useUnifiedTopology: true
         } )
-        console.log("Conexão bem-sucedida")
+        console.log("Conexão bem-sucedida.")
     }catch(err){
-        console.log("Deu error: " + err)
+        console.log("Erro: " + err)
     }
 }

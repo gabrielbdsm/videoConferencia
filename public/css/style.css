@@ -2,12 +2,14 @@ html, body {
   margin: 0;
   padding: 0;
 }
+
 body{
-    background-color: rgb(70, 69, 69);
+    background-color: #ffffff;
     height: 100vh;
     width: 100vw;
     overflow: hidden;
 }
+
 #room{
     display:grid;
     grid-gap: 5px;
@@ -18,6 +20,7 @@ body{
     position: relative;
     
 }
+
 .video{
     position: relative;
     height: 100%;
@@ -40,8 +43,7 @@ body{
     left: 1rem;
     bottom: 1px;
     color: rgb(255, 255, 255);
-    
-    
+    font-family: "Kanit";  
 }
 
 #menuTransmissao{
@@ -50,14 +52,16 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgb(39, 39, 39);
+    background-color: #ffffff;
 }
+
 .buttonMenuTransmissao{
     color: #ffffff;
     font-size: 0.8rem;
     height: 2.5rem;
     width: 7rem;
     margin-left: 1rem;
+    margin-top: 20px;
     border-color: transparent;
     border-radius: 100px;
     box-shadow: none;

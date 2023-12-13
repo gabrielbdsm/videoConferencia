@@ -43,7 +43,7 @@ app.use(express.json())
 app.use('/' ,router)
 
 server.listen(port , () => {
-  console.log(`Serve conectado na porta ${port}`);
+  console.log(`Server conectado na porta ${port}.`);
 
 })
 
