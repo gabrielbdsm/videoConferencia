@@ -28,10 +28,10 @@ export  const userSalver = async  (req , res )=>{
             await user.save()
             return res.render('chat');
         }else{
-            console.log("Usuário já existe na sala")
+            console.log("Usuário já existe na sala.")
         }
     } catch (error) {
-        console.error("Erro ao verificar se usuário existe na sala " ,error)
+        console.error("Erro ao verificar se usuário existe na sala." ,error)
     }
     res.render('chat');
 }
